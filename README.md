@@ -1,5 +1,5 @@
 # OutLook-Doc-Maker
-Word-VBA tool that compiles mails(from Outlook) into a document. (given one or more key-terms)
+Word-VBA tool that compiles mails(from Outlook) into a document. (given one or more key-terms).
 
   The macro crawls through the MAPI namespace (all inboxes, folders and subfolders, everything) and "picks up" 
 everything that matches the search criteria. The purpose is to generate documentation based on mail backlogs.
