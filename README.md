@@ -10,3 +10,5 @@ everything that matches the search criteria. The purpose is to generate document
 
   Sometimes, the macro might generate an error upon opening the first mail in the list.
 In that case, just click on "OK for everything" and the script will resume running.
+
+![With RE:](https://user-images.githubusercontent.com/17041548/68474143-57eaa200-022d-11ea-8ec1-9d7eff38c5ce.jpg)
