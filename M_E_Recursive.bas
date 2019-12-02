@@ -23,7 +23,7 @@ Dim mI As Outlook.MailItem
 Dim rangeS() As Range
 Dim rangeTxt() As String
 
-'The MAPI namespace is where all the mail content "lives"
+'The MAPI namespace is where all the mail content lives
 Set nS = ouT.GetNamespace("MAPI")
 
 'Left-over code from trying to add content in a different Word document
@@ -92,7 +92,7 @@ Next mail
 'In the second traversal we'll add the actual content:
 cntr = 0
 For Each mail In Traversed.Items
-
+On Error GoTo eHandle
     cntr = cntr + 1
     Set mI = mail
 
@@ -159,7 +159,12 @@ Next k
 
 UserForm1.Hide
 MsgBox "Done !"
+Exit Sub
 
+eHandle:
+'TODO: a more robust error handling!
+    MsgBox Err.Description
+    Resume Next
 End Sub
 
 Sub browseInbox1(ByVal thisFolder As Outlook.Folder)
