@@ -9,7 +9,7 @@ Public nCount As Integer
 Public fCount As Integer
 Public cntr As Integer
 Dim objWord
-Public doC As Word.Document
+Public doC As Inspector
 Public tdoC As Word.Document
 Public tdoCR As Word.Range
 Public fsTime As Boolean
@@ -22,6 +22,7 @@ Sub justcall(cs As Integer)
 Dim mI As Outlook.MailItem
 Dim rangeS() As Range
 Dim rangeTxt() As String
+Dim isError As Boolean
 
 'The MAPI namespace is where all the mail content lives
 Set nS = ouT.GetNamespace("MAPI")
@@ -91,7 +92,13 @@ Next mail
 
 'In the second traversal we'll add the actual content:
 cntr = 0
+isError = False
+
 For Each mail In Traversed.Items
+
+'Stops the loop when encountering error
+If isError Then Exit For
+
 On Error GoTo eHandle
     cntr = cntr + 1
     Set mI = mail
@@ -101,9 +108,10 @@ On Error GoTo eHandle
          'fsTime = False
     End If
 
-    Set doC = mI.GetInspector.WordEditor
+    'Set doC = mI.GetInspector.WordEditor
+    Set doC = mI.GetInspector
     
-    With doC.Range
+    With doC.WordEditor.Range
         '.InsertBefore mI.Subject
         .Copy
     End With
@@ -148,7 +156,10 @@ On Error GoTo eHandle
         .Select
         .PasteSpecial
     End With
-          
+    
+'Closes the container (this avoids the overflow bug)
+doC.Close olDiscard
+
 Next mail
 
 'Adding hyperlinks, inverse traversal is used (this corrected an earlier bug):
@@ -164,6 +175,7 @@ Exit Sub
 eHandle:
 'TODO: a more robust error handling!
     MsgBox Err.Description
+    isError = True
     Resume Next
 End Sub
 
